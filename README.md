@@ -11,11 +11,6 @@ Intall node 7 and expressjs
     $ npm install pug
 ```
 
-Install Babel
-```
-    npm install babel-register --save-dev
-```
-
 # Hello World
 
 
