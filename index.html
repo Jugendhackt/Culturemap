@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CMxNX</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    .container-fluid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .subtitle, .info h2, .info p {
+      text-align: center;
+    }
+    .row.info {
+      height: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+  integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+  integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+  crossorigin=""></script>
+  <link rel="stylesheet" href="leaflet2.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body class="container-fluid">
+  <nav class="navbar navbar-inverse row" style="margin-bottom: 0px;">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand"> <img src="logo.jpg" style="max-width:100%;max-height:100%"> </a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="">Home</a></li>
+	    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          Countries<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Taiwan</a></li>
+          <li><a href="#">Germany</a></li>
+          <li><a href="#">South Korea</a></li>
+		      <li><a href="#">Mongolia</a></li>
+		      <li><a href="#">Japan</a></li>
+		      <li><a href="#">Hong Kong</a></li>
+		    </ul>
+	    </li>
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>
+	  <ul class="nav navbar-nav navbar-right">
+    <li>
+        <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </li>
+    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+    </div>
+  </nav>
+  <div class="row" style="height: 100%;">
+    <div class="col-md-12" style="height:75%; background-color:green" id="mapid">
+      <script>
+      var map = L.map('mapid').setView([51.505, -0.09], 13);
+
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+       $.getJSON("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json", function(json){
+         console.log(json);
+         L.geoJson(json).addTo(map)
+         function highlightFeature(e) {
+             var layer = e.target;
+
+             layer.setStyle({
+                 weight: 5,
+                 color: '#666',
+                 dashArray: '',
+                 fillOpacity: 0.1
+             });
+
+             if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                 layer.bringToFront();
+             }
+             info.update(layer.feature.properties);
+
+         }
+         function resetHighlight(e) {
+           geojson.resetStyle(e.target);
+           info.update();    }
+         function zoomToFeature(e) {
+         map.fitBounds(e.target.getBounds());
+     }
+         function onEachFeature(feature, layer) {
+           layer.on({
+               mouseover: highlightFeature,
+               mouseout: resetHighlight,
+               click: zoomToFeature
+           });
+         }
+
+         geojson = L.geoJson(json, {
+           onEachFeature: onEachFeature
+         }).addTo(map);
+
+       });
+       var info = L.control();
+
+     info.onAdd = function (map) {
+         this._div = L.DomUtil.create('div', 'info');
+         this.update();
+         return this._div;
+     };
+
+     info.update = function (props) {
+         this._div.innerHTML = '<h4>Country Name</h4>' +  (props ?
+             '<b>' + props.name + '</b><br />'
+             : 'Hover over a state');
+     };
+
+     info.addTo(map);
+
+     </script>
+  </div>
+  <div class="row info">
+    <div class="col-md-12">
+        <h2> What we do here? </h2>
+        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio rerum quaerat, sint vel dolore? Nostrum quisquam eius dolor illo officiis eos itaque architecto doloremque ea, corrupti assumenda ipsum perspiciatis nulla neque omnis possimus harum nesciunt, laboriosam cum alias! Voluptate quod autem quisquam sapiente, nostrum omnis incidunt atque, dolor a ipsa consequatur dolores ea officia soluta laborum voluptatibus. Sapiente, minima neque ea quos! Quos perspiciatis ducimus dicta cumque, quidem molestias quis soluta deleniti ipsam dignissimos. Similique quibusdam eum consequuntur, id sed deleniti, et cum. Dignissimos sequi et fugit asperiores, laudantium dolorum vero blanditiis tenetur quae recusandae vel ab est laboriosam ut! </p>
+    </div>
+  </div>
+  <div class="row info">
+      <div class="col-md-12">
+          <h2> What is Culture map </h2>
+          <p> Culture map is platform for stundents, who where in different countries, share their experiences. We also help students to go to student exchange. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis nostrum delectus repellendus cumque doloremque molestiae aliquam porro, dolorem pariatur perferendis temporibus, dignissimos quos eius praesentium minima distinctio velit deleniti voluptas eaque commodi repellat minus nihil, labore. Totam ex sapiente voluptatum numquam dolorem, consectetur ea nisi ipsam reiciendis, accusantium, suscipit corrupti magni deserunt maxime, reprehenderit voluptatem! Rem eum, a ducimus cumque nemo, rerum earum tempore soluta odio cum libero ab quisquam quasi eveniet perspiciatis illum. Qui laudantium, similique officiis unde voluptates? Modi assumenda veritatis deleniti quam, fugit veniam recusandae. Impedit ut, iure quo mollitia magni excepturi dolore doloribus asperiores amet dicta.</p>
+      </div>
+  </div>
+  <div class="row info">
+      <div class="col-md-12">
+          <h2> Whst is Nxperience? </h2>
+          <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta error ipsam excepturi, non amet ab reprehenderit eaque porro perspiciatis illo quam vel est, earum dignissimos exercitationem mollitia quod ipsa eius architecto placeat, possimus at dolores. Nihil dolor deleniti nam tempore suscipit itaque quisquam odit quidem obcaecati, neque, tempora sapiente ex reprehenderit unde non iste impedit cupiditate repellendus aperiam. Ex recusandae consequuntur porro assumenda facilis, quis rem quas exercitationem quia delectus quos vel aliquam vitae perferendis quidem veritatis asperiores non maiores eaque architecto neque, inventore quibusdam omnis, ipsam? Nesciunt incidunt libero tempora aspernatur magnam facere quae quibusdam possimus! Dolorem expedita, quis.</p>
+      </div>
+  </div>
+  <div class="row info">
+      <div class="col-md-12">
+          <h2> what is our main goal? </h2>
+          <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus placeat fugit officiis temporibus fuga distinctio, unde sit modi eum, officia fugiat vitae neque. Deleniti quibusdam dolore, impedit quos suscipit dicta culpa, voluptas autem quis repellat qui officiis fugit asperiores, nisi quaerat iste? Suscipit rem nobis labore commodi, optio amet accusamus aut qui, provident, sunt, perspiciatis inventore! Dolore recusandae nihil, soluta obcaecati fugiat delectus, libero autem, harum eveniet fugit omnis voluptatibus natus. Dicta aliquam rem soluta, veritatis animi hic quae natus cumque beatae repellendus omnis impedit porro excepturi, voluptatum dolor sunt, voluptate ducimus non quos voluptates, culpa! Sapiente, ab ipsa nobis?</p>
+      </div>
+  </div>
+</body>
+</html>
