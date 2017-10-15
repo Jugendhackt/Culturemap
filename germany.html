@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CMxNX</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    .container-fluid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .subtitle, .info h2, .info p {
+      text-align: center;
+    }
+    .row.info {
+      height: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+  integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+  integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+  crossorigin=""></script>
+  <link rel="stylesheet" href="leaflet2.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body class="container-fluid">
+  <nav class="navbar navbar-inverse row" style="margin-bottom: 0px;">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">CMxNX</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="test3.html">Home</a></li>
+	    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          Countries<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="taiwan.html">Taiwan</a></li>
+          <li><a href="germany.html">Germany</a></li>
+          <li><a href="#">South Korea</a></li>
+		      <li><a href="#">Mongolia</a></li>
+		      <li><a href="#">Japan</a></li>
+		      <li><a href="#">Hong Kong</a></li>
+		    </ul>
+	    </li>
+      <li><a href="#culture_map">Culture Map</a></li>
+      <li><a <href="#nextperience">Nextperience</a></li>
+      <li><a href="#goal">Main Goal</a></li>
+    </ul>
+	  <ul class="nav navbar-nav navbar-right">
+    <li>
+        <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </li>
+    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+    </div>
+  </nav>
+  <div class="row" style="height: 100%;">
+    <div class="col-md-12" style="height:100%; background-color:green">
+        <p class="subtitle">This part is inside a .container class.</p>
+        <p class="subtitle">The .container class provides a responsive fixed width container.</p>
+    </div>
+  </div>
+  <a name="culture_map"
+  <div class="row info">
+    <div class="col-md-12"; style="height:100%; background-color:red">
+        <h2> What is Culture map? </h2>
+        <p> Here will be answer </p>
+    </div>
+  </div>
+  <a name="nextperience">
+  <div class="row info">
+      <div class="col-md-12"; style="height:100%; background-color:yellow">
+          <h2> What is Nxperience? </h2>
+          <p> Culture map is platform for stundents, who where in different countries, share their experiences. We also help students to go to student exchange.</p>
+      </div>
+  </div>
+  <div class="row info">
+      <div class="col-md-12"; style="height:100%; background-color:blue; font-size:20px; text-align:center"> HERE IS NOT DONE !!!
+	      <div style="position:relative; width:500px; ">
+		  <h2> What we do here? </h2>
+		  <p> We can get information about exchange programfrom whole world. Exchange students share what they are doing with other stundents and they give feedback to someone, who will participate the programs. So we can talk about the concerns or problems. We can give and take some tips togheter.</p>
+		  </div>
+      </div>
+  </div>
+  <a name="goal">
+  <div class="row info">
+      <div class="col-md-12"; style="height:100%; background-color:orange">
+          <h2> What is our main goal? </h2>
+          <p> here will be the answer for this question </p>
+      </div>
+  </div>
+  <div class="row info">
+      <div class="col-md-12" id="mapid" >
+          <script>
+      var map = L.map('mapid').setView([51.505, -0.09], 13);
+
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+       $.getJSON("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json", function(json){
+         console.log(json);
+         L.geoJson(json).addTo(map)
+         function highlightFeature(e) {
+             var layer = e.target;
+
+             layer.setStyle({
+                 weight: 5,
+                 color: '#666',
+                 dashArray: '',
+                 fillOpacity: 0.1
+             });
+
+             if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                 layer.bringToFront();
+             }
+             info.update(layer.feature.properties);
+
+         }
+         function resetHighlight(e) {
+           geojson.resetStyle(e.target);
+           info.update();    }
+         function zoomToFeature(e) {
+         map.fitBounds(e.target.getBounds());
+     }
+         function onEachFeature(feature, layer) {
+           layer.on({
+               mouseover: highlightFeature,
+               mouseout: resetHighlight,
+               click: zoomToFeature
+           });
+         }
+
+         geojson = L.geoJson(json, {
+           onEachFeature: onEachFeature
+         }).addTo(map);
+
+       });
+       var info = L.control();
+
+     info.onAdd = function (map) {
+         this._div = L.DomUtil.create('div', 'info');
+         this.update();
+         return this._div;
+     };
+
+     info.update = function (props) {
+         this._div.innerHTML = '<h4>Country Name</h4>' +  (props ?
+             '<b>' + props.name + '</b><br />'
+             : 'Hover over a state');
+     };
+
+     info.addTo(map);
+
+       </script>
+      </div>
+  </div>
+</body>
+</html>
