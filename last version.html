@@ -144,20 +144,15 @@
            geojson.resetStyle(e.target);
            info.update();
          }
-          function click(e) {
-           var countryname = e.target.feature.properties.name
-           if (countryname == "Germany"){
-               window.location.href = "germany.html"
-             }
-           else if (countryname == "Taiwan") {
-                   window.location.href = "taiwan.html"
-                   }
+
+           function zoom(e) {
+                   map.fitbounds(e.target.getbounds());
                  }
        function onEachFeature(feature, layer) {
            layer.on({
                mouseover: highlightFeature,
                mouseout: resetHighlight,
-               click: click
+               click: zoom
            });
          }
 
