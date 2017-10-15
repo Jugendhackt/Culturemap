@@ -33,11 +33,11 @@
   <nav class="navbar navbar-inverse row" style="margin-bottom: 0px;">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">CMxNX</a>
+        <a class="navbar-brand" href="last version.html">CMxNX</a>
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li>
-	    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> 
+	    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
           Countries<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="#">Taiwan</a></li>
@@ -46,8 +46,8 @@
 		      <li><a href="#">Mongolia</a></li>
 		      <li><a href="#">Japan</a></li>
 		      <li><a href="#">Hong Kong</a></li>
-		    </ul>	
-	    </li>	
+		    </ul>
+	    </li>
       <li><a href="#culture">Culture Map</a></li>
       <li><a href="#next">Nextperience</a></li>
       <li><a href="#main">Main Goal</a></li>
@@ -66,18 +66,19 @@
     </ul>
     </div>
   </nav>
-  <div class="row" style="height: 100%;">
+  <div class="row" style="height: 100%; background:  url('logo.jpg') no-repeat center">
     <div class="col-md-12" style="height:100%;">
         <div style="height:100%; display:flex; justify-content:center; align-items:center; flex-direction:column">
-		<h1>Logo</h1>
-		<p class="subtitle">At background will be our logo.</p> 
-        <p class="subtitle">The .container class provides a responsive fixed width container.</p> 
+		<!--<h1>Logo</h1>
+		 <p class="subtitle">At background will be our logo.</p>
+        <p class="subtitle">The .container class provides a responsive fixed width container.</p
+        -->
         </div>
 	</div>
   </div>
   <a name="culture">
   <div class="row info" >
-    <div class="col-md-12"; style="height:100%; background-color:gray">
+    <div class="col-md-12"; style="height:100%; background-color:#2EC4B6">
         <div style="height:100%; display:flex; justify-content:center; align-items:center; flex-direction:column">
 		<h2> What is Culture map? </h2>
         <p> Here will be answer </p>
@@ -86,7 +87,7 @@
   </div>
   <a name="next">
   <div class="row info">
-      <div class="col-md-12"; style="height:100%; background-color:yellow">
+      <div class="col-md-12"; style="height:100%; background-color:#FDFFFC">
           <div style="height:100%; display:flex; justify-content:center; align-items:center; flex-direction:column">
 		  <h2> What is Nxperience? </h2>
           <p> Culture map is platform for stundents, who where in different countries, share their experiences. We also help students to go to student exchange.</p>
@@ -94,7 +95,7 @@
 	  </div>
   </div>
   <div class="row info">
-      <div class="col-md-12"; style="height:100%; background-color:blue; font-size:20px; text-align:center; vertical-align:middle; display:flex "> 
+      <div class="col-md-12"; style="height:100%; background-color:#2EC4B6; font-size:20px; text-align:center; vertical-align:middle; display:flex ">
 	      <div style="height:100%; display:flex; justify-content: center ;align-items: center; flex-direction: column">
 		  <h2 style="width:100%; "> What we do here? </h2>
 		  <p> We can get information about exchange program from whole world. Students,who are enrolled student exchange program, share what they did with other stundents and their opinions with someone, who is going to participate in those programs. So basically we can talk about the concerns or problems and give some tips togheter.</p>
@@ -103,8 +104,8 @@
   </div>
   <a name="main">
   <div class="row info">
-      <div class="col-md-12"; style="height:100%; background-color:orange">
-          <div style="height:100%; display:flex; justify-content:center; align-items:center; flex-direction:column"> 
+      <div class="col-md-12"; style="height:100%; background-color:#FDFFFC">
+          <div style="height:100%; display:flex; justify-content:center; align-items:center; flex-direction:column">
 		  <h2> What is our main goal? </h2>
           <p> here will be the answer for this question </p>
 		  </div>
@@ -113,12 +114,12 @@
   <div class="row info">
       <div class="col-md-12" id="mapid" >
           <script>
-      var map = L.map('mapid').setView([51.505, -0.09], 13);
+      var map = L.map('mapid').setView([25.1, 121.6], 5);
 
       L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-		  
-		   
+
+
       }).addTo(map);
        $.getJSON("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json", function(json){
          console.log(json);
@@ -141,15 +142,22 @@
          }
          function resetHighlight(e) {
            geojson.resetStyle(e.target);
-           info.update();    }
-         function zoomToFeature(e) {
-         map.fitBounds(e.target.getBounds());
-     }
-         function onEachFeature(feature, layer) {
+           info.update();
+         }
+          function click(e) {
+           var countryname = e.target.feature.properties.name
+           if (countryname == "Germany"){
+               window.location.href = "germany.html"
+             }
+           else if (countryname == "Taiwan") {
+                   window.location.href = "taiwan.html"
+                   }
+                 }
+       function onEachFeature(feature, layer) {
            layer.on({
                mouseover: highlightFeature,
                mouseout: resetHighlight,
-               click: zoomToFeature
+               click: click
            });
          }
 
